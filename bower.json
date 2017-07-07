@@ -1,0 +1,21 @@
+{
+  "name": "sparql-result-mapper-with-translate",
+  "homepage": "https://github.com/SemanticComputing/sparql-result-mapper-with-translate",
+  "authors": [
+    "Erkki Heino <evsheino@gmail.com>"
+  ],
+  "description": "",
+  "main": "src/translateable_object_mapper.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-translate": "^2.15.2",
+    "angular-paging-sparql-service": "^0.7.2"
+  }
+}
