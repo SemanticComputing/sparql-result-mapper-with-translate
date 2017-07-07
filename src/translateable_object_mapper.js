@@ -11,7 +11,19 @@
         function reviseObject(obj, orig) {
             var clone = _.clone(obj);
             _.forOwn(clone, function(value, key) {
-                obj.setLangAttr(key, orig);
+                if (_.isObject(value)) {
+                    var subObj = {};
+                    var prefix = key + '__';
+                    _.forOwn(orig, function(v, k) {
+                        if (_.startsWith(k, prefix)) {
+                            subObj[k.slice(prefix.length)] = v;
+                        }
+                    });
+                    obj[key] = angular.extend(new TranslateableObject(), obj[key]);
+                    obj[key] = reviseObject(obj[key], subObj);
+                } else {
+                    obj.setLangAttr(key, orig);
+                }
             });
             return obj;
         }
