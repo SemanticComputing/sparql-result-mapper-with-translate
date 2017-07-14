@@ -5,7 +5,7 @@
 
     .constant('_', _)
 
-    .factory('translateableObjectMapperService', function(_, objectMapperService, TranslateableObject) {
+    .factory('translateableObjectMapperService', ['_', 'objectMapperService', 'TranslateableObject', function(_, objectMapperService, TranslateableObject) {
         function TranslateableObjectMapper() { }
 
         function reviseObject(obj, orig) {
@@ -34,8 +34,8 @@
         TranslateableObjectMapper.prototype.reviseObject = reviseObject;
 
         return new TranslateableObjectMapper();
-    })
-    .factory('TranslateableObject', function($translate, _) {
+    }])
+    .factory('TranslateableObject', ['$translate', '_', function($translate, _) {
         function TranslateableObject() { }
 
         TranslateableObject.prototype.getLangAttr = getLangAttr;
@@ -70,6 +70,6 @@
                 }
             }
         }
-    });
+    }]);
 
 })(_); // eslint-disable-line no-undef
