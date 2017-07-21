@@ -28,33 +28,62 @@
             return obj;
         }
 
+        function postProcess(objects) {
+            objects = objectMapperService.postProcess.call(this, objects);
+            _.forEach(objects, function(obj) {
+                setProperties(obj);
+            });
+            return objects;
+        }
+
+        function setProperties(obj) {
+            if (!obj.langAttrs) {
+                return obj;
+            }
+            _.forEach(_.keys(obj), function(key) {
+                if (_.includes(obj.langAttrs, key)) {
+                    return Object.defineProperty(obj, key, { get: _.bind(obj.getLangAttr, obj, key) });
+                }
+                _.forEach(_.castArray(obj[key]), function(val) {
+                    if (_.isObject(val)) {
+                        return setProperties(val);
+                    }
+                });
+            });
+        }
+
+
         var proto = Object.getPrototypeOf(objectMapperService);
         TranslateableObjectMapper.prototype = angular.extend({}, proto, TranslateableObjectMapper.prototype);
         TranslateableObjectMapper.prototype.objectClass = TranslateableObject;
         TranslateableObjectMapper.prototype.reviseObject = reviseObject;
+        TranslateableObjectMapper.prototype.postProcess = postProcess;
 
         return new TranslateableObjectMapper();
     }])
     .factory('TranslateableObject', ['$translate', '_', function($translate, _) {
-        function TranslateableObject() { }
+        function TranslateableObject() {
+        }
 
         TranslateableObject.prototype.getLangAttr = getLangAttr;
         TranslateableObject.prototype.setLangAttr = setLangAttr;
 
+        // For backwards compatibility
+
         TranslateableObject.prototype.getLabel = function() {
-            return this.getLangAttr('label');
+            return this.label;
         };
         TranslateableObject.prototype.getDescription = function() {
-            return this.getLangAttr('description');
+            return this.description;
         };
         TranslateableObject.prototype.getTypeLabel = function() {
-            return this.getLangAttr('type');
+            return this.type;
         };
 
         return TranslateableObject;
 
         function getLangAttr(attr) {
-            var val = _.get(this, attr + '_trans_' + $translate.use()) || this[attr];
+            var val = _.get(this, attr + '_trans_' + $translate.use()) || _.get(this, attr + '_origval');
             if (_.isArray(val)) {
                 return val[0];
             }
@@ -67,6 +96,11 @@
                 var lang = val['xml:lang'];
                 if (lang) {
                     _.set(this, attr + '_trans_' + lang, val.value);
+                    _.set(this, attr + '_origval', val.value);
+                    if (!this.langAttrs) {
+                        this.langAttrs = [];
+                    }
+                    this.langAttrs.push(attr);
                 }
             }
         }
