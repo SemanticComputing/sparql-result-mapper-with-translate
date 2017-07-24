@@ -16,6 +16,6 @@
   ],
   "dependencies": {
     "angular-translate": "^2.15.2",
-    "angular-paging-sparql-service": "^0.7.2"
+    "angular-paging-sparql-service": "^0.8.0"
   }
 }
