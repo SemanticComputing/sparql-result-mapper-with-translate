@@ -68,26 +68,27 @@
         TranslateableObject.prototype.getLangAttr = getLangAttr;
         TranslateableObject.prototype.setLangAttr = setLangAttr;
 
-        // For backwards compatibility
+        function getFirst(val) {
+            if (_.isArray(val)) {
+                return val[0];
+            }
+            return val;
+        }
 
         TranslateableObject.prototype.getLabel = function() {
-            return this.label;
+            return getFirst(this.label);
         };
         TranslateableObject.prototype.getDescription = function() {
-            return this.description;
+            return getFirst(this.description);
         };
         TranslateableObject.prototype.getTypeLabel = function() {
-            return this.type;
+            return getFirst(this.type);
         };
 
         return TranslateableObject;
 
         function getLangAttr(attr) {
-            var val = _.get(this, attr + '_trans_' + $translate.use()) || _.get(this, attr + '_origval');
-            if (_.isArray(val)) {
-                return val[0];
-            }
-            return val;
+            return _.get(this, attr + '_trans_' + $translate.use()) || _.get(this, attr + '_origval');
         }
 
         function setLangAttr(attr, orig) {
