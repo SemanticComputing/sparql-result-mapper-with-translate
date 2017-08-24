@@ -4,8 +4,9 @@
     angular.module('seco.translateableObjectMapper', ['sparql', 'pascalprecht.translate'])
 
     .constant('_', _)
+    .value('SECO_DEFAULT_LANG', 'en')
 
-    .factory('translateableObjectMapperService', ['_', 'objectMapperService', 'TranslateableObject', function(_, objectMapperService, TranslateableObject) {
+    .factory('translateableObjectMapperService', ['_', 'objectMapperService', 'TranslateableObject', 'SECO_DEFAULT_LANG', function(_, objectMapperService, TranslateableObject, SECO_DEFAULT_LANG) {
         function TranslateableObjectMapper() { }
 
         function reviseObject(obj, orig) {
@@ -42,7 +43,7 @@
             }
             _.forEach(_.keys(obj), function(key) {
                 if (_.includes(obj.langAttrs, key)) {
-                    return Object.defineProperty(obj, key, { get: _.bind(obj.getLangAttr, obj, key) });
+                    return Object.defineProperty(obj, key, { get: _.bind(obj.getLangAttr, obj, key, SECO_DEFAULT_LANG) });
                 }
                 _.forEach(_.castArray(obj[key]), function(val) {
                     if (_.isObject(val)) {
@@ -108,5 +109,4 @@
             }
         }
     }]);
-
 })(_); // eslint-disable-line no-undef
