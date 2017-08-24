@@ -87,8 +87,10 @@
 
         return TranslateableObject;
 
-        function getLangAttr(attr) {
-            return _.get(this, attr + '_trans_' + $translate.use()) || _.get(this, attr + '_origval');
+        function getLangAttr(attr, fallBackLang) {
+            return _.get(this, attr + '_trans_' + $translate.use()) ||
+                _.get(this, attr + '_trans_' + fallBackLang) ||
+                _.get(this, attr + '_origval');
         }
 
         function setLangAttr(attr, orig) {
