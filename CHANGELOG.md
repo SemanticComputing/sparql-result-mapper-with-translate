@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.4.3] - 2017-08-25
+
+### Fixed
+- Fix bug where child objects' properties were not set if the parent had no localized attributes.
+
 ## [0.4.2] - 2017-08-24
 
 ### Changed
@@ -34,7 +39,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Use Object.defineProperty so that properties now dynamically return the localized
   string without having to call getLangAttr.
 
-[Unreleased]: https://github.com/SemanticComputing/angular-paging-sparql-service/compare/0.4.2...HEAD
+[Unreleased]: https://github.com/SemanticComputing/angular-paging-sparql-service/compare/0.4.3...HEAD
+[0.4.3]: https://github.com/SemanticComputing/angular-paging-sparql-service/compare/0.4.2...0.4.3
 [0.4.2]: https://github.com/SemanticComputing/angular-paging-sparql-service/compare/0.4.1...0.4.2
 [0.4.1]: https://github.com/SemanticComputing/angular-paging-sparql-service/compare/0.4.0...0.4.1
 [0.4.0]: https://github.com/SemanticComputing/angular-paging-sparql-service/compare/0.3.1...0.4.0
