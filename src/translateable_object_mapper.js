@@ -38,9 +38,6 @@
         }
 
         function setProperties(obj) {
-            if (!obj.langAttrs) {
-                return obj;
-            }
             _.forEach(_.keys(obj), function(key) {
                 if (_.includes(obj.langAttrs, key)) {
                     return Object.defineProperty(obj, key, { get: _.bind(obj.getLangAttr, obj, key, SECO_DEFAULT_LANG) });
